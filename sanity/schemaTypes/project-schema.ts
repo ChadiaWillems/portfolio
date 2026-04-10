@@ -29,5 +29,11 @@ export const projectType = defineType({
       title: 'Cloudinary Image URL',
       description: 'Plak hier de URL van je afbeelding op Cloudinary'
     }),
+    defineField({
+      name: 'tags',
+      type: 'array',
+      title: 'Tags',
+      of: [{ type: 'string' }]
+    }),
   ],
 })

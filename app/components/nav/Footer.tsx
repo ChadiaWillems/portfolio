@@ -1,13 +1,13 @@
 "use client";
 import React from 'react';
 
-export default function Nav({ name }: { name: string }) {
+export default function Nav({ name, year }: { name: string; year: number }) {
 
   return (
     <footer className="flex justify-between items-center py-6 px-8 max-w-7xl mx-auto w-full">
       {/* credits */}
       <p className="text-gray-600 dark:text-gray-400" suppressHydrationWarning>
-        &copy; {new Date().getFullYear()} {name}. All rights reserved.
+        &copy; {year} {name}. All rights reserved.
       </p>
       {/* github + linkedin links */}
         <div className="flex gap-4">

@@ -1,7 +1,5 @@
 import { client } from '@/sanity/lib/client';
-import { urlFor } from '@/sanity/lib/image';
 import { cacheLife } from 'next/cache';
-import Image from 'next/image';
 import Nav from './components/nav/Nav';
 import Hero from './widgets/Hero';
 import Skills from './widgets/Skills';
@@ -35,7 +33,10 @@ async function getAboutMe() {
     bio,
     cloudinaryUrl
   }`);
-  return aboutMe;
+  return {
+    ...aboutMe,
+    currentYear: new Date().getFullYear(),
+  };
 }
 
 async function getSkills() {
@@ -54,6 +55,7 @@ export default async function Home() {
   const projects = await getProjects();
   const aboutMe = await getAboutMe();
   const skills = await getSkills();
+  const year = aboutMe[0]?.currentYear;
 
   return (
     <>
@@ -72,7 +74,7 @@ export default async function Home() {
           <Project key={project._id} title={project.title} description={project.description} link={project.link} cloudinaryUrl={project.cloudinaryUrl} tags={project.tags} />
         ))}
       </main>
-      <Footer name="Chadia Willems" />
+      <Footer name="Chadia Willems" year={year} />
     </>
   );
 }

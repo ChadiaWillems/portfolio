@@ -2,8 +2,6 @@ export default function Hero({ name, subtitle, bio, photo }: { name?: string; su
   return (
     <section className="flex flex-col lg:flex-row items-center justify-between gap-12 py-20 px-8 max-w-7xl mx-auto w-full min-h-[70vh]">
       <div className="flex flex-col items-start gap-8 flex-1">
-        <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 text-[10px] sm:text-xs px-4 py-1.5 rounded-full text-blue-600 dark:text-blue-400 font-bold tracking-widest uppercase">Available for work</div>
-
         <div className="flex flex-col gap-4">
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter leading-[1.1] dark:text-white text-black">
             Hi, I&apos;m <br />

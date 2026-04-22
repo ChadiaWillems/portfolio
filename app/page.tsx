@@ -70,9 +70,10 @@ export default async function Home() {
           <Skills title={skills[0]?.title} Icon={Palette} skills={skills[0]?.tag} gradient="from-purple-500 to-pink-500" />
         </div>
         <h1 className="text-3xl font-bold mb-8">Projects</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
         {projects.map((project: any) => (
           <Project key={project._id} title={project.title} description={project.description} link={project.link} cloudinaryUrl={project.cloudinaryUrl} tags={project.tags} />
-        ))}
+        ))}</div>
       </main>
       <Footer name="Chadia Willems" year={year} />
     </>

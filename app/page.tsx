@@ -1,5 +1,5 @@
 import { client } from '@/sanity/lib/client';
-import { cacheLife } from 'next/cache';
+import { unstable_cache } from 'next/cache';
 import Nav from './components/nav/Nav';
 import Hero from './widgets/Hero';
 import Skills from './widgets/Skills';
@@ -7,51 +7,48 @@ import Project from './widgets/Project';
 import Footer from './components/nav/Footer';
 import TypoSectionHeader from './components/typo/TypoSectionHeader';
 
+const getProjects = unstable_cache(
+  async () => {
+    return await client.fetch(`*[_type == "project"]{
+      _id,
+      title,
+      description,
+      links,
+      tags,
+      cloudinaryUrl,
+      slug
+    }`);
+  },
+  ['projects-cache'],
+  { revalidate: 3600 }, // Ververst elk uur
+);
 
-async function getProjects() {
-  'use cache';
-  cacheLife('hours');
+const getAboutMe = unstable_cache(
+  async () => {
+    const aboutMe = await client.fetch(`*[_type == "about"]{
+      _id,
+      title,
+      subtitle,
+      bio,
+      cloudinaryUrl
+    }`);
+    return aboutMe;
+  },
+  ['about-cache'],
+  { revalidate: 3600 },
+);
 
-  const projects = await client.fetch(`*[_type == "project"]{
-    _id,
-    title,
-    description,
-    links,
-    tags,
-    cloudinaryUrl,
-    slug
-  }`);
-  return projects;
-}
-
-async function getAboutMe() {
-  'use cache';
-  cacheLife('hours');
-
-  const aboutMe = await client.fetch(`*[_type == "about"]{
-    _id,
-    title,
-    subtitle,
-    bio,
-    cloudinaryUrl
-  }`);
-  return {
-    ...aboutMe,
-    currentYear: new Date().getFullYear(),
-  };
-}
-
-async function getSkills() {
-  'use cache';
-  cacheLife('hours');
-
-  const skills = await client.fetch(`*[_type == "skills"]{
-    _id,
-    title,
-    tag
-  }`);
-  return skills;
-}
+const getSkills = unstable_cache(
+  async () => {
+    return await client.fetch(`*[_type == "skills"]{
+      _id,
+      title,
+      tag
+    }`);
+  },
+  ['skills-cache'],
+  { revalidate: 3600 },
+);
 
 export default async function Home() {
   const projects = await getProjects();
@@ -72,7 +69,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section id='projects'>
+        <section id="projects">
           <TypoSectionHeader number="02" title="Selected Works" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {projects.map((project: any) => (

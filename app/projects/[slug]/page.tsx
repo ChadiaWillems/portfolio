@@ -1,10 +1,11 @@
 import { client } from '@/sanity/lib/client';
 import TypoSectionHeader from '@/app/components/typo/TypoSectionHeader';
 import ButtonAction from '@/app/components/buttons/ButtonAction';
-import { cacheLife } from 'next/cache';
+import { unstable_cache } from 'next/cache';
 import Nav from '@/app/components/nav/Nav';
 import Footer from '@/app/components/nav/Footer';
 
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const projects = await client.fetch(`*[_type == "project"]{ "slug": slug.current }`);
@@ -14,15 +15,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params;
-  const slug = resolvedParams.slug;
-
-  async function getProjectData(slug: string) {
-    'use cache';
-    cacheLife('hours');
-
-    // We halen hier nu expliciet alle nieuwe velden op
+const getProjectData = unstable_cache(
+  async (slug: string) => {
     return await client.fetch(
       `*[_type == "project" && slug.current == $slug][0]{
       title,
@@ -37,7 +31,14 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
     }`,
       { slug },
     );
-  }
+  },
+  ['project-detail-cache'],
+  { revalidate: 3600 },
+);
+
+export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
 
   const project = await getProjectData(slug);
 

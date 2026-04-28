@@ -5,6 +5,14 @@ import { cacheLife } from 'next/cache';
 import Nav from '@/app/components/nav/Nav';
 import Footer from '@/app/components/nav/Footer';
 
+export async function generateStaticParams() {
+  const projects = await client.fetch(`*[_type == "project"]{ "slug": slug.current }`);
+
+  return projects.map((project: { slug: string }) => ({
+    slug: project.slug,
+  }));
+}
+
 export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
@@ -46,7 +54,6 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
       <Nav logoName="CW" />
       <main className="min-h-screen bg-[#0a0a0a] text-white pb-24">
         <div className="max-w-7xl mx-auto px-8 py-24">
-          {/* Header Sectie */}
           <div className="mb-16">
             <div className="pb-12">
               <ButtonAction label="Back to overview" href="/" variant="secondary" />
@@ -58,7 +65,6 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 mt-20">
-            {/* LINKER KOLOM: De Basis Info */}
             <div className="lg:col-span-1 space-y-12">
               <section>
                 <TypoSectionHeader number="01" title="The Brief" />
@@ -76,7 +82,6 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                 </div>
               </section>
 
-              {/* Technische Breakdown - In een apart blok voor extra nadruk */}
               {project.technicalText && (
                 <section className="p-6 bg-neutral-900/50 border-l-2 border-[#d4ff00] space-y-4">
                   <h3 className="font-mono text-[#d4ff00] uppercase text-xs tracking-widest font-bold">Technical Breakdown</h3>
@@ -85,14 +90,12 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
               )}
             </div>
 
-            {/* RECHTER KOLOM: Het Verhaal & Visuals */}
             <div className="lg:col-span-2 space-y-20">
               {/* Hoofdafbeelding */}
               <div className="border border-white/10 p-2 bg-neutral-900/50 group overflow-hidden">
                 <img src={project.cloudinaryUrl} alt={project.title} className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700" />
               </div>
 
-              {/* Content Secties: Concept, Challenge & Solution */}
               <div className="grid grid-cols-1 gap-16">
                 {project.challenge && (
                   <section>

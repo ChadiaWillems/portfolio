@@ -1,18 +1,15 @@
-import { LucideIcon } from "lucide-react";
-
-export default function Skills({ Icon, title, skills, gradient }: { Icon?: LucideIcon; title: string; skills: string[]; gradient: string }) {
+export default function Skills({ title, skills }: { title: string; skills: string[] }) {
   return (
-    <div className="bg-white dark:bg-[#111111] border border-neutral-100 dark:border-neutral-800 p-8 rounded-[2rem] shadow-sm hover:shadow-md transition-all group flex-1 min-w-[280px]">
-      <div className="flex items-center gap-4 mb-6">
-        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-lg`}>
-         {Icon && <Icon size={24} strokeWidth={2.5} />}
-        </div>
-        <h3 className="text-xl font-bold dark:text-white text-black">{title}</h3>
+    <div className="border border-white/10 p-8 flex-1 min-w-[280px] hover:border-[#d4ff00] transition-colors group">
+      <h3 className="text-xs font-mono text-[#d4ff00] mb-4 uppercase tracking-[0.2em]">{title}</h3>
+      <div className="flex flex-wrap gap-2">
+        {skills.map((skill, i) => (
+          <span key={i} className="text-xl font-bold text-white group-hover:text-[#d4ff00]">
+            {skill}
+            {i !== skills.length - 1 && ','}
+          </span>
+        ))}
       </div>
-      
-      <p className="text-neutral-500 dark:text-neutral-400 leading-relaxed font-medium">
-        {skills.join(', ')}
-      </p>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function Footer({ name, year }: { name: string; year: number }) {
             <span className="text-[#d4ff00]">.</span>
           </p>
           <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest" suppressHydrationWarning>
-            &copy; {year}
+            &copy; {year} All rights reserved.
           </p>
         </div>
 

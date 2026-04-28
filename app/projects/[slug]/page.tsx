@@ -119,7 +119,6 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                 )}
               </div>
 
-              {/* Action Buttons */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-12 border-t border-white/10">
                 {project.links?.map((link: any) => (
                   <ButtonAction key={link.label} label={link.label} href={link.url} variant="primary" />
@@ -129,7 +128,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
           </div>
         </div>
       </main>
-      <Footer name="Chadia Willems" year={new Date().getFullYear()} />
+      <Footer name="Chadia Willems" year={2026} />
     </>
   );
 }

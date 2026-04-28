@@ -56,7 +56,6 @@ export default async function Home() {
   const projects = await getProjects();
   const aboutMe = await getAboutMe();
   const skills = await getSkills();
-  const year = aboutMe[0]?.currentYear;
 
   return (
     <>
@@ -82,7 +81,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <Footer name="Chadia Willems" year={year} />
+      <Footer name="Chadia Willems" year={2026} />
     </>
   );
 }

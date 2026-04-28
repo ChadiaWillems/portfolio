@@ -7,6 +7,8 @@ import Project from './widgets/Project';
 import Footer from './components/nav/Footer';
 import TypoSectionHeader from './components/typo/TypoSectionHeader';
 
+export const runtime = 'edge';
+
 async function getProjects() {
   'use cache';
   cacheLife('hours');

@@ -5,7 +5,6 @@ import { cacheLife } from 'next/cache';
 import Nav from '@/app/components/nav/Nav';
 import Footer from '@/app/components/nav/Footer';
 
-export const runtime = 'edge';
 
 export async function generateStaticParams() {
   const projects = await client.fetch(`*[_type == "project"]{ "slug": slug.current }`);

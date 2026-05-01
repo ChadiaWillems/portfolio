@@ -9,18 +9,19 @@ import TypoSectionHeader from './components/typo/TypoSectionHeader';
 
 const getProjects = unstable_cache(
   async () => {
-    return await client.fetch(`*[_type == "project"]{
+    return await client.fetch(`*[_type == "project"]| order(year desc){
       _id,
       title,
       description,
       links,
       tags,
-      cloudinaryUrl,
-      slug
+      "cloudinaryUrl": projectImage.secure_url,
+      slug,
+      year
     }`);
   },
-  ['projects-cache'],
-  { revalidate: 3600 }, // Ververst elk uur
+  ['projects-cache-vFINAL'],
+  { revalidate: 3600 },
 );
 
 const getAboutMe = unstable_cache(
@@ -30,11 +31,11 @@ const getAboutMe = unstable_cache(
       title,
       subtitle,
       bio,
-      cloudinaryUrl
+      "cloudinaryUrl": aboutImage.secure_url
     }`);
     return aboutMe;
   },
-  ['about-cache'],
+  ['  about-cache-vFINAL'],
   { revalidate: 3600 },
 );
 
@@ -73,7 +74,7 @@ export default async function Home() {
           <TypoSectionHeader number="02" title="Selected Works" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {projects.map((project: any) => (
-              <Project key={project._id} title={project.title} description={project.description} cloudinaryUrl={project.cloudinaryUrl} tags={project.tags} links={project.links} slug={project.slug} />
+              <Project key={project._id} title={project.title} description={project.description} cloudinaryUrl={project.cloudinaryUrl} tags={project.tags} links={project.links} slug={project.slug} year={project.year} />
             ))}
           </div>
         </section>

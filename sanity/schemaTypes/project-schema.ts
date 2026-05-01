@@ -30,10 +30,10 @@ export const projectType = defineType({
       ]
     }),
     defineField({
-      name: 'cloudinaryUrl',
-      type: 'url',
-      title: 'Cloudinary Image URL',
-      description: 'Plak hier de URL van je afbeelding op Cloudinary'
+      name: 'projectImage',
+      type: 'cloudinary.asset',
+      title: 'Project Image (Cloudinary)',
+      description: 'Kies direct een afbeelding uit je Cloudinary mediabibliotheek',
     }),
     defineField({
       name: 'tags',
@@ -80,10 +80,16 @@ export const projectType = defineType({
       rows: 7,
     }),
     defineField({
+      name: 'year',
+      type: 'number',
+      title: 'jaar gemaakt project',
+      description: 'Zet hier het jaar dat je aan dit project hebt gewerkt. Dit veld is optioneel, maar kan helpen bij het ordenen van je projecten op je portfolio.',
+    }),
+    defineField({
       name: 'gallery',
       type: 'array',
       title: 'Project Gallery',
-      of: [{ type: 'image' }],
+      of: [{ type: 'cloudinary.asset' }],
       description: 'Voeg extra screenshots of ontwerpen toe die op de detailpagina verschijnen.',
     }),
   ],

@@ -17,10 +17,10 @@ export const aboutType = defineType({
     }),
     defineField({ name: 'bio', type: 'text', title: 'Biografie' }),
     defineField({
-      name: 'cloudinaryUrl',
-      type: 'url',
-      title: 'Cloudinary Image URL',
-      description: 'Plak hier de URL van je afbeelding op Cloudinary'
+      name: 'aboutImage',
+      type: 'cloudinary.asset',
+      title: 'About Image (Cloudinary)',
+      description: 'Kies direct een afbeelding uit je Cloudinary mediabibliotheek',
     }),
   ],
 })

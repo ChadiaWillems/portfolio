@@ -12,3 +12,14 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+@layer base {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+  }
+}

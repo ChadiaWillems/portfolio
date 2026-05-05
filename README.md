@@ -84,3 +84,18 @@ In plaats van afbeeldingen lokaal op te slaan of rechtstreeks vanuit het CMS te 
 - **Resultaat:** De bestandsgrootte van project-screenshots wordt drastisch verkleind, wat de "Largest Contentful Paint" (LCP) aanzienlijk verbetert.
 
 ![Afbeelding Dashboard cloudinary](/public/picture-dashboard.png)
+
+## 🚀 Deployment
+
+De live versie van dit portfolio is te vinden op: 
+**[www.chadiawillems.com](www.chadiawillems.com)**
+
+### Build Status
+- **Framework:** Next.js 16 (App Router)
+- **Status:** ✅ Production build successful
+- **Environment:** Vercel / Cloudflare Pages
+
+### Kwaliteitscontrole
+- **Linting:** ESLint & Prettier
+- **TypeScript:** Strict mode enabled
+- **Images:** Optimized via Cloudinary & Next/Image

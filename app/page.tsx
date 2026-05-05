@@ -6,9 +6,35 @@ import Skills from './widgets/Skills';
 import Project from './widgets/Project';
 import Footer from './components/nav/Footer';
 import TypoSectionHeader from './components/typo/TypoSectionHeader';
+import { Suspense } from 'react';
+
+interface ProjectType {
+  _id: string;
+  title: string;
+  description: string;
+  links: { label: string; url: string }[];
+  tags: string[];
+  cloudinaryUrl: string;
+  slug: { current: string };
+  year: number;
+}
+
+interface AboutType {
+  _id: string;
+  title: string;
+  subtitle: string;
+  bio: string;
+  cloudinaryUrl: string;
+}
+
+interface SkillType {
+  _id: string;
+  title: string;
+  tag: string[];
+}
 
 const getProjects = unstable_cache(
-  async () => {
+  async (): Promise<ProjectType[]> => { // Voeg Promise type toe
     return await client.fetch(`*[_type == "project"]| order(year desc){
       _id,
       title,
@@ -25,7 +51,7 @@ const getProjects = unstable_cache(
 );
 
 const getAboutMe = unstable_cache(
-  async () => {
+  async (): Promise<AboutType[]> => { // Voeg Promise type toe
     const aboutMe = await client.fetch(`*[_type == "about"]{
       _id,
       title,
@@ -35,12 +61,12 @@ const getAboutMe = unstable_cache(
     }`);
     return aboutMe;
   },
-  ['  about-cache-vFINAL'],
+  ['about-cache-vFINAL'],
   { revalidate: 3600 },
 );
 
 const getSkills = unstable_cache(
-  async () => {
+  async (): Promise<SkillType[]> => { // Voeg Promise type toe
     return await client.fetch(`*[_type == "skills"]{
       _id,
       title,
@@ -56,11 +82,12 @@ export default async function Home() {
   const aboutMe = await getAboutMe();
   const skills = await getSkills();
 
+
   return (
     <>
       <Nav logoName="CW" />
       <Hero name={aboutMe[0]?.title} subtitle={aboutMe[0]?.subtitle} bio={aboutMe[0]?.bio} photo={aboutMe[0]?.cloudinaryUrl} />
-      <main className="flex flex-col gap-24 py-24 px-8 max-w-7xl mx-auto w-full">
+      <main id="main-content" className="flex flex-col gap-24 py-24 px-8 max-w-7xl mx-auto w-full">
         <section>
           <TypoSectionHeader number="01" title="Skills" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-l border-t border-white/10">
@@ -72,11 +99,13 @@ export default async function Home() {
 
         <section id="projects">
           <TypoSectionHeader number="02" title="Selected Works" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {projects.map((project: any) => (
-              <Project key={project._id} title={project.title} description={project.description} cloudinaryUrl={project.cloudinaryUrl} tags={project.tags} links={project.links} slug={project.slug} year={project.year} />
-            ))}
-          </div>
+          <Suspense fallback={<p className="text-[#d4ff00] animate-pulse">Loading amazing projects...</p>}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              {projects.map((project: ProjectType) => (
+                <Project key={project._id} title={project.title} description={project.description} cloudinaryUrl={project.cloudinaryUrl} tags={project.tags} links={project.links} slug={project.slug} year={project.year} />
+              ))}
+            </div>
+          </Suspense>
         </section>
       </main>
 

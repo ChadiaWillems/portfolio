@@ -1,5 +1,6 @@
 import TypoSectionHeader from '@/app/components/typo/TypoSectionHeader';
 import ButtonAction from '@/app/components/buttons/ButtonAction';
+import Image from 'next/image';
 
 interface ContentProps {
   image: string;
@@ -13,8 +14,21 @@ interface ContentProps {
 export default function ProjectContent({ image, title, challenge, concept, solution, links }: ContentProps) {
     return (
     <div className="lg:col-span-2 space-y-20">
-      <div className="border border-white/10 p-2 bg-neutral-900/50 group overflow-hidden">
-        <img src={image} alt={title} className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+      <div className="relative border border-white/10 p-2 bg-neutral-900/50 group overflow-hidden aspect-video">
+        {image ? (
+          <Image
+            src={image}
+            alt={`Project showcase: ${title}`}
+            fill
+            priority
+            className="object-cover grayscale hover:grayscale-0 transition-all duration-700 p-2"
+            sizes="(max-width: 1024px) 100vw, 66vw"
+          />
+        ) : (
+          <div className="w-full h-full bg-neutral-900 flex items-center justify-center text-neutral-500 font-mono">
+            NO_IMAGE
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-16">

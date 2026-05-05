@@ -1,4 +1,5 @@
 import ButtonAction from "../components/buttons/ButtonAction";
+import Image from 'next/image';
 
 export default function Hero({ name, subtitle, bio, photo }: { name?: string; subtitle?: string; bio?: string; photo?: string }) {
   const optimizedUrl = photo && typeof photo === 'string' ? photo.replace('/upload/', '/upload/f_auto,q_100,w_1200/') : null;
@@ -12,9 +13,24 @@ export default function Hero({ name, subtitle, bio, photo }: { name?: string; su
         <p className="max-w-md text-neutral-400 text-lg leading-snug">{bio}</p>
         <ButtonAction label="Explore Projects" href="#projects" variant="primary" />
       </div>
-      <div className="relative flex-1 flex justify-center">
-        <div className="w-72 h-72 md:w-[400px] md:h-[500px] border-2 border-[#d4ff00] p-2">{optimizedUrl ? <img src={optimizedUrl} alt={name} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" /> : <div className="w-full h-full bg-neutral-900 flex items-center justify-center font-mono text-neutral-500">IMG_NULL</div>}</div>
-      </div>
+      <div className="relative w-72 h-72 md:w-[400px] md:h-[500px] border-2 border-[#d4ff00] overflow-hidden">
+          {optimizedUrl ? (
+            <div className="absolute inset-2">
+              <Image 
+                src={optimizedUrl} 
+                alt={name || "Hero Image"} 
+                fill 
+                priority 
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                sizes="(max-width: 768px) 288px, 400px"
+              />
+            </div>
+          ) : (
+            <div className="w-full h-full bg-neutral-900 flex items-center justify-center font-mono text-neutral-500">
+              IMG_NULL
+            </div>
+          )}
+        </div>
     </section>
   );
 }
